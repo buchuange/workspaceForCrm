@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dragon.crm.workbench.dao.TranDao">
+	
+  	<insert id="save">
+        insert into tbl_tran(
+           id,
+           owner,
+           money,
+           name,
+           type ,
+           expectedDate,
+           customerId,
+           stage,
+           source,
+           activityId,
+           contactsId,
+           createBy,
+           createTime,
+           description,
+           contactSummary,
+           nextContactTime
+        ) values(
+           #{id},
+           #{owner},
+           #{money},
+           #{name},
+           #{type},
+           #{expectedDate},
+           #{customerId},
+           #{stage},
+           #{source},
+           #{activityId},
+           #{contactsId},
+           #{createBy},
+           #{createTime},
+           #{description},
+           #{contactSummary},
+           #{nextContactTime}
+        )
+    </insert>
+
+   <select id="detail" resultType="Tran">
+
+      select
+          t.id,
+          u.name as owner,
+          t.money,
+          t.name,
+          t.type ,
+          t.expectedDate,
+          cus.name as customerId,
+          t.stage,
+          t.source,
+          a.name as activityId,
+          c.fullname as contactsId,
+          t.createBy,
+          t.createTime,
+          t.editBy,
+          t.editTime,
+          t.description,
+          t.contactSummary,
+          t.nextContactTime
+      from tbl_tran t
+      join tbl_user u
+      on t.owner = u.id
+      left join tbl_activity a
+      on t.activityId = a.id
+      left join tbl_contacts c
+      on t.contactsId = c.id
+      join tbl_customer cus
+      on t.customerId = cus.id
+      where t.id=#{id}
+   </select>
+
+    <update id="changeStage">
+        update tbl_tran
+        set stage=#{stage}, editBy=#{createBy}, editTime=#{createTime}
+        where id=#{tranId}
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
